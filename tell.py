@@ -1,15 +1,22 @@
 from gtts import gTTS
 from os import system
-from mpg123 import Mpg123
+from pygame import mixer, quit as pyquit
+from time import time
 
 
 class Speaker:
+    def __init__(self):
+        mixer.init()
+        
     def speak(self, text, lang='ru'):
-        speaker = gTTS(text=text, lang=lang, slow=False)
-        print('Saving')
-        speaker.save('.mp3')
-        print('Playing')
-        system('mpg123 .mp3')
+        t = time()
+        myobj = gTTS(text=text, lang=lang, slow=False)
+        myobj.save('.mp3')
+        mixer.music.load('.mp3')
+        mixer.music.set_volume(1)
+        print(time() - t)
+        mixer.music.play()
+    
+    def __del__(self):
+        pyquit()
 
-
-Speaker().speak('идите нахуй, мудилы, сосите член, матери ваши конченные, аааааа')

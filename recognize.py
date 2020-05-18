@@ -2,15 +2,17 @@
 from vosk import Model, KaldiRecognizer
 from pyaudio import PyAudio, paInt16
 from terminal import *
+#from tell import Speaker
 
 
 def post(s):
-    print('[{}]'.format(s))
+    print('[{}]'.format(s.capitalize()))
 
 
 class Recognizer:
     def __init__(self, name='_model'):
         self.P = PyAudio()
+        #self.S = Speaker()
         self.stream = self.P.open(format=paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
         self.stream.start_stream()
         self.model = Model(name)
@@ -27,4 +29,8 @@ class Recognizer:
                 text = eval(self.rec.Result())
                 if text.get('text'):
                     print('[Вы]', text.get('text'))
-                    print('[Команды]', *normal(text.get('text')))
+                    nor = normal(text.get('text'))
+                    print('[Команды]', *nor)
+                    execute(*nor)
+                    #self.S.speak(' '.join(nor))
+                    
