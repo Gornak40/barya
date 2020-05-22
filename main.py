@@ -1,3 +1,4 @@
+#!/bin/python3
 from recognize import *
 from os import system
 
